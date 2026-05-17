@@ -1,0 +1,109 @@
+<!-- //src/app/components/speaker/speaker.component.html -->
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-8">
+      <h1 class="page-title">Manage Speakers</h1>
+    </div>
+    <div class="col-4 text-end">
+      <button class="btn btn-success" (click)="showForm = !showForm">
+        <i class="bi bi-plus-circle"></i> Add Speaker
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = null"></button>
+  </div>
+
+  <!-- Create Speaker Form -->
+  <div *ngIf="showForm" class="card mb-4">
+    <div class="card-body">
+      <h5>Create New Speaker</h5>
+      <form [formGroup]="speakerForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Name *</label>
+            <input type="text" class="form-control" formControlName="speakerName" [class.is-invalid]="submitted && f['speakerName'].errors">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Email *</label>
+            <input type="email" class="form-control" formControlName="email" [class.is-invalid]="submitted && f['email'].errors">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Designation *</label>
+            <input type="text" class="form-control" formControlName="designation" [class.is-invalid]="submitted && f['designation'].errors">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Organization *</label>
+            <input type="text" class="form-control" formControlName="organization" [class.is-invalid]="submitted && f['organization'].errors">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Phone Number *</label>
+            <input type="tel" class="form-control" formControlName="phoneNumber" [class.is-invalid]="submitted && f['phoneNumber'].errors">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">LinkedIn URL</label>
+            <input type="url" class="form-control" formControlName="linkedInUrl" [class.is-invalid]="submitted && f['linkedInUrl'].errors">
+            <div *ngIf="submitted && f['linkedInUrl'].errors?.['pattern']" class="invalid-feedback d-block">
+              LinkedIn URL must start with http:// or https://
+            </div>
+          </div>
+
+          <div class="col-12 mb-3">
+            <label class="form-label">Bio *</label>
+            <textarea class="form-control" formControlName="bio" rows="3" [class.is-invalid]="submitted && f['bio'].errors"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Speaker</button>
+        <button type="button" class="btn btn-secondary ms-2" (click)="showForm = false">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Speakers Table -->
+  <table *ngIf="!loading" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Designation</th>
+        <th>Organization</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let speaker of speakers">
+        <td>{{ speaker.speakerName }}</td>
+        <td>{{ speaker.email }}</td>
+        <td>{{ speaker.designation }}</td>
+        <td>{{ speaker.organization }}</td>
+        <td>
+          <button class="btn btn-sm btn-danger" (click)="deleteSpeaker(speaker.speakerId)">
+            <i class="bi bi-trash"></i> Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && speakers.length === 0" class="alert alert-info">
+    No speakers available. Create one to get started.
+  </div>
+
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary"></div>
+  </div>
+</div>
+

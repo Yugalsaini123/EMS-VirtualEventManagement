@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/home">
+      <i class="bi bi-calendar-event"></i> EMS
+    </a>
+
+    <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [class.show]="isNavbarOpen">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active" (click)="closeNavbar()">
+            <i class="bi bi-house"></i> Home
+          </a>
+        </li>
+
+        <li class="nav-item dropdown" *ngIf="isAdmin()">
+          <a class="nav-link dropdown-toggle" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-gear"></i> Admin
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" routerLink="/admin/dashboard" (click)="closeNavbar()">Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" routerLink="/admin/events" (click)="closeNavbar()">Manage Events</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/sessions" (click)="closeNavbar()">Manage Sessions</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/speakers" (click)="closeNavbar()">Manage Speakers</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown" *ngIf="!isAdmin() && currentUser">
+          <a class="nav-link dropdown-toggle" href="#" id="participantMenu" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person"></i> My Events
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" routerLink="/participant/events" (click)="closeNavbar()">Registered Events</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown" *ngIf="currentUser">
+          <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle"></i> {{ currentUser.userName }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><span class="dropdown-item-text text-muted">{{ currentUser.emailId }}</span></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" routerLink="/change-password" (click)="closeNavbar()">Change Password</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item" *ngIf="!currentUser">
+          <a class="nav-link btn btn-outline-light ms-2" routerLink="/login">
+            <i class="bi bi-box-arrow-in-right"></i> Login
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

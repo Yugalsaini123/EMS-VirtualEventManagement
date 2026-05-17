@@ -1,0 +1,35 @@
+
+.page-title {
+  color: #667eea;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.event-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.event-meta p {
+  margin-bottom: 0.5rem;
+}
+
+.card-footer {
+  border-top: none;
+}
+
+.pagination .page-link {
+  color: #667eea;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #667eea;
+  border-color: #667eea;
+}

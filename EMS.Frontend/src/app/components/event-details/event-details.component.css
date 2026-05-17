@@ -1,0 +1,30 @@
+
+.card {
+  border-radius: 10px;
+}
+
+.card-title {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.event-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.event-details-grid strong {
+  display: block;
+  color: #667eea;
+  margin-bottom: 0.25rem;
+}
+
+.session-item:last-child {
+  border-bottom: none !important;
+}
+
+.sticky-top {
+  position: sticky;
+}

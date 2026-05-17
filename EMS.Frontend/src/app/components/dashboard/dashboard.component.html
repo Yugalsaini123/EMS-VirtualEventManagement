@@ -1,0 +1,197 @@
+<div class="container-fluid mt-4">
+  <h1 class="page-title mb-4">
+    <i class="bi bi-speedometer2"></i> Admin Dashboard
+  </h1>
+
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ error }}
+    <button type="button" class="btn-close" (click)="error = null"></button>
+  </div>
+
+  <div *ngIf="!loading" class="row g-4">
+    <!-- Key Metrics Row -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card stat-card text-center h-100">
+        <div class="card-body">
+          <i class="bi bi-calendar-check stat-icon"></i>
+          <h5 class="card-title mt-2">Total Events</h5>
+          <p class="stat-number">{{ totalEvents }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card stat-card text-center h-100">
+        <div class="card-body">
+          <i class="bi bi-calendar-event stat-icon upcoming"></i>
+          <h5 class="card-title mt-2">Upcoming</h5>
+          <p class="stat-number">{{ upcomingEvents }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card stat-card text-center h-100">
+        <div class="card-body">
+          <i class="bi bi-person-video3 stat-icon"></i>
+          <h5 class="card-title mt-2">Speakers</h5>
+          <p class="stat-number">{{ totalSpeakers }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card stat-card text-center h-100">
+        <div class="card-body">
+          <i class="bi bi-people stat-icon"></i>
+          <h5 class="card-title mt-2">Participants</h5>
+          <p class="stat-number">{{ totalParticipants }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="bi bi-lightning"></i> Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <a routerLink="/admin/events" class="btn btn-outline-primary">
+              <i class="bi bi-list"></i> View All Events
+            </a>
+            <a routerLink="/admin/event-form" class="btn btn-primary">
+              <i class="bi bi-plus-circle"></i> Create New Event
+            </a>
+            <a routerLink="/admin/sessions" class="btn btn-outline-primary">
+              <i class="bi bi-calendar-range"></i> Manage Sessions
+            </a>
+            <a routerLink="/admin/speakers" class="btn btn-outline-primary">
+              <i class="bi bi-person-video3"></i> Manage Speakers
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event Statistics -->
+    <div class="col-lg-6" *ngIf="eventStats">
+      <div class="card h-100">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0"><i class="bi bi-graph-up"></i> Latest Event Stats</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Total Registered:</strong> {{ eventStats.totalRegistered }}</p>
+          <p><strong>Total Attended:</strong> {{ eventStats.totalAttended }}</p>
+          <p><strong>No-Shows:</strong> {{ eventStats.totalNoShow }}</p>
+          <p><strong>Attendance %:</strong> {{ eventStats.attendancePercentage }}%</p>
+          <p><strong>Avg Rating:</strong> <span class="badge bg-warning">{{ eventStats.averageRating }}</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Speaker Workload -->
+    <div class="col-12" *ngIf="speakersWorkload.length > 0">
+      <div class="card">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Speaker Workload</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Speaker Name</th>
+                  <th>Email</th>
+                  <th>Organization</th>
+                  <th>Sessions Assigned</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let speaker of speakersWorkload.slice(0, 5)">
+                  <td>{{ speaker.speakerName }}</td>
+                  <td>{{ speaker.email }}</td>
+                  <td>{{ speaker.organization }}</td>
+                  <td><span class="badge bg-primary">{{ speaker.sessionCount }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Events -->
+    <div class="col-12" *ngIf="recentEvents.length > 0">
+      <div class="card">
+        <div class="card-header bg-warning text-dark">
+          <h5 class="mb-0"><i class="bi bi-calendar-week"></i> Recent Events</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Event Name</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Participants</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let event of recentEvents.slice(0, 5)">
+                  <td>{{ event.eventName }}</td>
+                  <td>{{ event.eventDate | date: 'short' }}</td>
+                  <td>
+                    <span [ngClass]="event.status === 'Active' ? 'badge bg-success' : 'badge bg-secondary'">
+                      {{ event.status }}
+                    </span>
+                  </td>
+                  <td>{{ event.participantCount }}/{{ event.maxParticipants }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Information -->
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0"><i class="bi bi-info-circle"></i> Admin Dashboard Features</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Welcome to the Admin Dashboard!</strong></p>
+          <p>You now have access to powerful management and analytics features:</p>
+          <div class="row">
+            <div class="col-md-6">
+              <h6>Event Management:</h6>
+              <ul>
+                <li>✓ Create and manage events</li>
+                <li>✓ Toggle event status (Active/Inactive)</li>
+                <li>✓ View all events including inactive ones</li>
+                <li>✓ Track event participation</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <h6>Analytics & Reporting:</h6>
+              <ul>
+                <li>✓ View attendance statistics</li>
+                <li>✓ Monitor speaker workload</li>
+                <li>✓ Track participant engagement</li>
+                <li>✓ Review event ratings & feedback</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

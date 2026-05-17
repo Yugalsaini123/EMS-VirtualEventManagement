@@ -1,0 +1,31 @@
+
+  .page-title {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.event-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.rating {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.alert-sm {
+  font-size: 0.9rem;
+  padding: 0.5rem;
+}

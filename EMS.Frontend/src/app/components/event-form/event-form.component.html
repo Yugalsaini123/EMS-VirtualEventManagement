@@ -1,0 +1,83 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1>{{ isEditMode ? 'Edit Event' : 'Create New Event' }}</h1>
+
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+        {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+        {{ successMessage }}
+        <button type="button" class="btn-close" (click)="successMessage = null"></button>
+      </div>
+
+      <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="card mt-3">
+        <div class="card-body">
+ 
+          <div class="mb-3">
+            <label for="eventName" class="form-label">Event Name *</label>
+            <input type="text" class="form-control" id="eventName"
+                   formControlName="eventName"
+                   [class.is-invalid]="submitted && f['eventName'].errors">
+            <div class="invalid-feedback" *ngIf="submitted && f['eventName'].errors">
+              Event name is required (min 3 characters)
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="eventCategory" class="form-label">Category *</label>
+            <select class="form-control" id="eventCategory" formControlName="eventCategory"
+                    [class.is-invalid]="submitted && f['eventCategory'].errors">
+              <option value="">Select Category</option>
+              <option value="Technology">Technology</option>
+              <option value="Business">Business</option>
+              <option value="Education">Education</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="eventDate" class="form-label">Event Date & Time *</label>
+            <input type="datetime-local" class="form-control" id="eventDate"
+                   formControlName="eventDate"
+                   [class.is-invalid]="submitted && f['eventDate'].errors">
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description *</label>
+            <textarea class="form-control" id="description" rows="4"
+                      formControlName="description"
+                      [class.is-invalid]="submitted && f['description'].errors"></textarea>
+            <div class="invalid-feedback" *ngIf="submitted && f['description'].errors">
+              Description is required (min 10 characters)
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="location" class="form-label">Location *</label>
+            <input type="text" class="form-control" id="location"
+                   formControlName="location"
+                   [class.is-invalid]="submitted && f['location'].errors">
+          </div>
+
+          <div class="mb-3">
+            <label for="maxParticipants" class="form-label">Max Participants</label>
+            <input type="number" class="form-control" id="maxParticipants"
+                   formControlName="maxParticipants">
+          </div>
+
+          <button type="submit" class="btn btn-primary me-2" [disabled]="loading">
+            {{ loading ? 'Saving...' : 'Save Event' }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="router.navigate(['/admin/events'])">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

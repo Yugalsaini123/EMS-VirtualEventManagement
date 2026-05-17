@@ -1,0 +1,6 @@
+<!-- // src/app/app.component.html -->
+<app-navbar *ngIf="isAuthenticated$ | async"></app-navbar>
+<main role="main">
+  <router-outlet></router-outlet>
+</main>
+

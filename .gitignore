@@ -1,0 +1,92 @@
+# Ignore build outputs
+bin/
+obj/
+dist/
+.angular/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+
+# Ignore IDE and editor files
+.vscode/
+.vs/
+.idea/
+*.swp
+*.swo
+*~
+*.user
+*.suo
+*.sln.docstates
+
+# Ignore npm packages and yarn
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Ignore environment files (secrets)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Ignore configuration files with secrets
+appsettings.Development.json
+appsettings.local.json
+appsettings.Production.json
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+.Thumbs.db
+
+# Ignore logs
+*.log
+logs/
+
+# Ignore temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Ignore database files
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+
+# Ignore build artifacts
+build/
+release/
+
+# Ignore coverage reports
+coverage/
+.coverage
+
+# Ignore test results
+TestResults/
+
+# Ignore editor backups
+*.bak
+*.backup
+
+# Ignore Azure emulator
+storage/
+
+# Ignore SSL certificates (if generated locally)
+*.crt
+*.key
+*.pem
+
+# Ignore Rider IDE
+.idea/
+*.iml
+
+# Keep these important files
+!.gitignore
+!.gitattributes
+!

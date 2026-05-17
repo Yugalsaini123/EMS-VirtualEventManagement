@@ -1,0 +1,82 @@
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body p-5">
+          <h1 class="card-title text-center mb-4">Create Account</h1>
+
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMessage }}
+            <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+          </div>
+
+          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ successMessage }}
+          </div>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" formControlName="email"
+                placeholder="Enter your email" [class.is-invalid]="submitted && f['email'].errors" />
+              <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                <div *ngIf="f['email'].errors['required']">Email is required</div>
+                <div *ngIf="f['email'].errors['email']">Please enter a valid email</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="userName" class="form-label">Username</label>
+              <input type="text" class="form-control" id="userName" formControlName="userName"
+                placeholder="Choose a username" [class.is-invalid]="submitted && f['userName'].errors" />
+              <div *ngIf="submitted && f['userName'].errors" class="invalid-feedback">
+                <div *ngIf="f['userName'].errors['required']">Username is required</div>
+                <div *ngIf="f['userName'].errors['minlength']">Username must be at least 3 characters</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" formControlName="password"
+                placeholder="Enter password" [class.is-invalid]="submitted && f['password'].errors" />
+              <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                <div *ngIf="f['password'].errors['required']">Password is required</div>
+                <div *ngIf="f['password'].errors['minlength']">Password must be at least 6 characters long</div>
+              </div>
+              <small class="d-block text-muted mt-2">
+                <strong>Password requirements:</strong>
+                <ul class="mb-0 ps-3">
+                  <li>At least 6 characters long</li>
+                  <li>One uppercase letter (A-Z)</li>
+                  <li>One lowercase letter (a-z)</li>
+                  <li>One digit (0-9)</li>
+                  <li>One special character (!@#$%^&*)</li>
+                </ul>
+              </small>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword"
+                placeholder="Confirm password" [class.is-invalid]="submitted && (f['confirmPassword'].errors || registerForm.errors)" />
+              <div *ngIf="submitted && registerForm.errors" class="invalid-feedback d-block">
+                <div *ngIf="registerForm.errors['passwordMismatch']">Passwords do not match</div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+              {{ loading ? 'Creating Account...' : 'Register' }}
+            </button>
+          </form>
+
+          <p class="text-center mt-3">
+            Already have an account? <a routerLink="/login" class="text-primary">Login here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

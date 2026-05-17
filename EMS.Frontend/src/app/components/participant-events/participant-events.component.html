@@ -1,0 +1,93 @@
+<!-- //src/app/components/participant-events/participant-events.component.html -->
+<div class="container mt-4">
+  <h1 class="page-title mb-4">
+    <i class="bi bi-bookmark-check"></i> My Registered Events
+  </h1>
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = null"></button>
+  </div>
+
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="!loading && events.length === 0" class="alert alert-info">
+    <i class="bi bi-info-circle"></i> You haven't registered for any events yet.
+    <a routerLink="/home" class="btn btn-sm btn-primary ms-2">Browse Events</a>
+  </div>
+
+  <div class="row g-4" *ngIf="!loading && events.length > 0">
+    <div *ngFor="let event of events" class="col-md-6 col-lg-4">
+      <div class="card event-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h5 class="card-title">{{ event.eventName }}</h5>
+            <span *ngIf="event.isAttended" class="badge bg-success">
+              <i class="bi bi-check-circle"></i> Attended
+            </span>
+            <span *ngIf="!event.isAttended" class="badge" [ngClass]="{
+              'bg-success': event.status === 'Active',
+              'bg-secondary': event.status === 'Inactive'
+            }">
+              <i class="bi" [ngClass]="{
+                'bi-calendar-check': event.status === 'Active',
+                'bi-lock': event.status === 'Inactive'
+              }"></i> {{ event.status }}
+            </span>
+          </div>
+
+          <p class="text-muted small mb-2">
+            <i class="bi bi-calendar-check"></i> {{ event.eventDate | date: 'short' }}
+          </p>
+
+          <p class="text-muted small mb-2">
+            <i class="bi bi-calendar-plus"></i> Registered: {{ event.registrationDate | date: 'short' }}
+          </p>
+
+          <div *ngIf="event.rating" class="mb-2">
+            <strong>Your Rating:</strong>
+            <div class="rating">
+              <span *ngFor="let i of [1,2,3,4,5]" class="badge" [ngClass]="{'bg-warning': i <= event.rating, 'bg-light': i > event.rating}">
+                <i class="bi bi-star-fill"></i>
+              </span>
+            </div>
+          </div>
+
+          <div *ngIf="event.feedback" class="alert alert-info alert-sm">
+            <strong>Your Feedback:</strong> {{ event.feedback }}
+          </div>
+        </div>
+
+        <div class="card-footer bg-light">
+          <button *ngIf="canMarkAttendance(event)" 
+                  class="btn btn-success btn-sm w-100 mb-2" 
+                  (click)="markAttended(event.registrationId)">
+            <i class="bi bi-check-circle"></i> Mark Attended
+          </button>
+          <!-- Show unregister button only if can unregister -->
+          <button *ngIf="canUnregister(event)" 
+                  class="btn btn-outline-danger btn-sm w-100" 
+                  (click)="unregister(event.eventId)">
+            <i class="bi bi-x-circle"></i> Unregister
+          </button>
+          <!-- Show disabled unregister button if cannot unregister -->
+          <button *ngIf="!canUnregister(event)" 
+                  class="btn btn-outline-secondary btn-sm w-100" 
+                  disabled
+                  [title]="event.isAttended ? 'Cannot unregister from attended events' : 
+                           event.status === 'Inactive' ? 'Cannot unregister from inactive events' :
+                           'Cannot unregister after event has completed'">
+            <i class="bi bi-x-circle"></i> Unregister
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

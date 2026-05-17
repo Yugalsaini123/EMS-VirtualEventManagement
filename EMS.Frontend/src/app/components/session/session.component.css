@@ -1,0 +1,21 @@
+
+.page-title {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.card {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  background-color: white;
+  border-radius: 10px;
+}
+
+.table thead {
+  background-color: #667eea;
+  color: white;
+}

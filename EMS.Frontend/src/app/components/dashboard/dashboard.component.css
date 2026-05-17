@@ -1,0 +1,40 @@
+
+.page-title {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.stat-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  font-size: 3rem;
+  color: #667eea;
+}
+
+.stat-icon.upcoming {
+  color: #f59e0b;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.card-header {
+  border-radius: 10px 10px 0 0;
+}

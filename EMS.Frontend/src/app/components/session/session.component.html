@@ -1,0 +1,182 @@
+<!-- //src/app/components/session/session.component.html -->
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-8">
+      <h1 class="page-title">Manage Sessions</h1>
+    </div>
+    <div class="col-4 text-end">
+      <button class="btn btn-success" (click)="showForm = !showForm">
+        <i class="bi bi-plus-circle"></i> Add Session
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = null"></button>
+  </div>
+
+  <!-- Create Session Form -->
+  <div *ngIf="showForm" class="card mb-4">
+    <div class="card-body">
+      <h5>Create New Session</h5>
+      <form [formGroup]="sessionForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Event *</label>
+            <select class="form-control" formControlName="eventId" [class.is-invalid]="submitted && f['eventId'].errors">
+              <option value="">Select Event</option>
+              <option *ngFor="let event of events" [value]="event.eventId">{{ event.eventName }}</option>
+            </select>
+          </div>
+
+          <!-- Session Title -->
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Session Title *</label>
+            <input type="text" class="form-control" formControlName="title"
+                   [class.is-invalid]="submitted && f['title'].errors">
+          </div>
+                  
+                  <!-- Start Time -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Start Time *</label>
+          <input type="datetime-local" class="form-control" formControlName="startTime"
+                 [class.is-invalid]="submitted && f['startTime'].errors">
+        </div>
+        
+        <!-- End Time -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">End Time *</label>
+          <input type="datetime-local" class="form-control" formControlName="endTime"
+                 [attr.min]="sessionForm.value.startTime || null"
+                 [disabled]="!sessionForm.value.startTime"
+                 [class.is-invalid]="submitted && f['endTime'].errors" />
+          <div *ngIf="submitted && f['endTime'].errors" class="invalid-feedback">
+            End time is required.
+          </div>
+        </div>
+        
+        <!-- Session URL -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Session URL </label>
+          <input type="text" class="form-control" formControlName="sessionUrl"
+                 [class.is-invalid]="submitted && f['sessionUrl'].errors">
+        </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Location *</label>
+            <input type="text" class="form-control" formControlName="location" [class.is-invalid]="submitted && f['location'].errors">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Speaker</label>
+            <select class="form-control" formControlName="speakerId">
+              <option value="">Select Speaker</option>
+              <option *ngFor="let speaker of speakers" [value]="speaker.speakerId">{{ speaker.speakerName }}</option>
+            </select>
+          </div>
+
+          <div class="col-12 mb-3">
+            <label class="form-label">Description *</label>
+            <textarea class="form-control" formControlName="description" rows="3" [class.is-invalid]="submitted && f['description'].errors"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Session</button>
+        <button type="button" class="btn btn-secondary ms-2" (click)="showForm = false">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sessions Filter and Search -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="eventSelect" class="form-label">Select Event:</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="eventSelect"
+                   [(ngModel)]="eventSearchTerm"
+                   (input)="onEventSearchChange()"
+                   list="eventsList"
+                   [placeholder]="selectedEventId ? 'Event selected' : 'Search and select an event...'"
+                   (change)="onEventSelected($event)">
+            <datalist id="eventsList">
+              <option *ngFor="let event of filteredEvents" [value]="event.eventName" [attr.data-id]="event.eventId">
+            </datalist>
+            <button class="btn btn-outline-secondary" (click)="clearEventSelection()" type="button" *ngIf="selectedEventId">
+              <i class="bi bi-x"></i> Clear
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="searchInput" class="form-label">Search Sessions:</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="searchInput" 
+                   [(ngModel)]="searchTerm"
+                   (keyup.enter)="searchSessions()"
+                   placeholder="Search by title, description, or location...">
+            <button class="btn btn-primary" (click)="searchSessions()" type="button">
+              <i class="bi bi-search"></i> Search
+            </button>
+            <button class="btn btn-outline-secondary" (click)="clearSearch()" type="button" *ngIf="searchTerm">
+              <i class="bi bi-x"></i> Clear
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sessions List -->
+  <div class="card">
+    <div class="card-body">
+      <h5>Sessions for Selected Event</h5>
+      <div *ngIf="!selectedEventId" class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Please select an event to view its sessions.
+      </div>
+      <div *ngIf="selectedEventId && sessions.length === 0 && !loading" class="alert alert-info">
+        <i class="bi bi-info-circle"></i> No sessions found for the selected event.
+      </div>
+      <div *ngIf="loading" class="d-flex justify-content-center py-4">
+        <div class="spinner-border text-primary"></div>
+      </div>
+      <div *ngIf="!loading && sessions.length > 0" class="row g-3">
+        <div *ngFor="let session of sessions" class="col-md-6 col-lg-4">
+          <div class="card session-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="card-title">{{ session.sessionTitle }}</h6>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteSession(session.sessionId)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+              <p class="text-muted small mb-2">
+                <i class="bi bi-calendar"></i> {{ session.sessionStart | date:'short' }} - {{ session.sessionEnd | date:'short' }}
+              </p>
+              <p class="text-muted small mb-2">
+                <i class="bi bi-geo-alt"></i> {{ session.location }}
+              </p>
+              <p class="card-text text-muted small mb-2">
+                {{ (session.description || '').length > 100 ? ((session.description || '') | slice:0:100) + '...' : (session.description || '') }}
+              </p>
+              <div *ngIf="session.speakerName" class="mb-2">
+                <strong>Speaker:</strong> {{ session.speakerName }}
+              </div>
+              <div *ngIf="session.sessionUrl" class="mb-2">
+                <a [href]="session.sessionUrl" target="_blank" class="btn btn-sm btn-outline-primary">
+                  <i class="bi bi-link"></i> Join Session
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

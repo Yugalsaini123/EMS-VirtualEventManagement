@@ -1,0 +1,60 @@
+apiVersion: '2019-12-01'
+location: eastus
+name: ems-app
+properties:
+  containers:
+  - name: frontend
+    properties:
+      image: emsacr.azurecr.io/ems-frontend:latest
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 1.0
+      ports:
+      - port: 80
+        protocol: TCP
+      environmentVariables:
+      - name: API_URL
+        value: http://api:5000/api/v1
+  - name: api
+    properties:
+      image: emsacr.azurecr.io/ems-api:latest
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGb: 2.0
+      ports:
+      - port: 5000
+        protocol: TCP
+      environmentVariables:
+      - name: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - name: ASPNETCORE_URLS
+        value: "http://+:5000"
+      - name: Jwt__Issuer
+        value: EMSApi
+      - name: Jwt__Audience
+        value: EMSApiUsers
+      - name: Jwt__ExpirationMinutes
+        value: "60"
+      - name: CORS__AllowedOrigins
+        value: "*"
+      # Secure values below - replace with your actual values
+      - name: ConnectionStrings__DefaultConnection
+        secureValue: "Server=tcp:YOUR_SQL_SERVER.database.windows.net,1433;Initial Catalog=EMSDatabase;Persist Security Info=False;User ID=sqladmin;Password=YOUR_PASSWORD;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+      - name: Jwt__Secret
+        secureValue: "YOUR_JWT_SECRET_32_CHARACTERS_MINIMUM"
+  osType: Linux
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: 80
+    - protocol: tcp
+      port: 5000
+    dnsNameLabel: ems-app
+  imageRegistryCredentials:
+  - server: emsacr.azurecr.io
+    username: YOUR_ACR_USERNAME
+    password: YOUR_ACR_PASSWORD
+  restartPolicy: Always

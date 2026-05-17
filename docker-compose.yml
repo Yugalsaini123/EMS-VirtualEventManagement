@@ -1,0 +1,54 @@
+services:
+  # Backend API Service (connects to LOCAL SQL Server on host)
+  api:
+    build:
+      context: .
+      dockerfile: EMS.API/Dockerfile
+    container_name: ems-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: "http://+:5000"
+      # 👇 Use host.docker.internal to reach local SQL Server
+      ConnectionStrings__DefaultConnection: "Server=host.docker.internal,1433;Database=EMSDatabase;User Id=sa;Password=Admin@12345!;Encrypt=false;TrustServerCertificate=true;"
+      Jwt__Secret: "sdfghjyhrtewfrcehjgskjfdeursdjadfdsjhgjekthyngytedgsfjbklgfiojeuygdlksfgiurygfhdxcvbgtertfhgd"
+      Jwt__Issuer: "EMSApi"
+      Jwt__Audience: "EMSApiUsers"
+      Jwt__ExpirationMinutes: "60"
+      CORS__AllowedOrigins: "http://localhost,http://localhost:80,http://localhost:5000,http://localhost:4200,http://frontend:80"
+    ports:
+      - "5000:5000"
+    networks:
+      - ems-network
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 45s
+
+  # Frontend Service
+  frontend:
+    build:
+      context: .
+      dockerfile: EMS.Frontend/Dockerfile
+    container_name: ems-frontend
+    ports:
+      - "80:80"
+    environment:
+      API_URL: "http://api:5000/api/v1"
+    networks:
+      - ems-network
+    restart: on-failure
+    depends_on:
+      - api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+networks:
+  ems-network:
+    driver: bridge
