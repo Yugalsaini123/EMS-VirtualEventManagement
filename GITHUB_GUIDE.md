@@ -1,5 +1,7 @@
 # GITHUB_GUIDE.md - Git Workflow & Version Control
 
+Live Demo: [EMS - Virtual Event Management System](http://ems-frontend-28551.centralindia.azurecontainer.io/)
+
 ## 🚀 Initial GitHub Setup
 
 ### Step 1: Create GitHub Repository
@@ -14,7 +16,7 @@
 
 ### Step 2: Get Your Repository URL
 ```
-https://github.com/YOUR_USERNAME/EMS-VirtualEventManagement.git
+https://github.com/Yugalsaini123/EMS-VirtualEventManagement.git
 ```
 
 ---
@@ -56,7 +58,7 @@ git add .
 git commit -m "initial: Add EMS project - Virtual Event Management System
 
 - ASP.NET Core 8.0 API with clean architecture
-- Angular 17+ frontend with responsive UI
+- Angular 21+ frontend with responsive UI
 - SQL Server database with Entity Framework migrations
 - Docker containerization for API and frontend
 - Nginx reverse proxy configuration
@@ -68,7 +70,7 @@ Deployment: http://ems-frontend-28551.centralindia.azurecontainer.io/"
 ### Step 6: Add Remote and Push
 ```bash
 # Add remote repository
-git remote add origin https://github.com/YOUR_USERNAME/EMS-VirtualEventManagement.git
+git remote add origin http://ems-frontend-28551.centralindia.azurecontainer.io/
 
 # Verify remote
 git remote -v

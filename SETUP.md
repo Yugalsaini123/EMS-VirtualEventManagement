@@ -1,5 +1,7 @@
 # SETUP.md - Local Development Setup Guide
 
+Live Demo: [EMS - Virtual Event Management System](http://ems-frontend-28551.centralindia.azurecontainer.io/)
+
 ## 📋 Prerequisites
 
 ### Required Software
@@ -21,7 +23,7 @@
 
 ### Step 1: Clone Repository
 ```bash
-git clone [YOUR_GITHUB_URL]
+git clone [https://github.com/Yugalsaini123/EMS-VirtualEventManagement.git]
 cd EMS
 ```
 
@@ -39,7 +41,6 @@ docker-compose ps
 ### Step 4: Access
 - **Frontend**: http://localhost
 - **API**: http://localhost:5000/health
-- **Swagger**: http://localhost:5000/swagger
 
 ---
 
@@ -80,7 +81,7 @@ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Admin@12345" \
 
 ### 3. Clone Repository
 ```bash
-git clone [YOUR_GITHUB_URL]
+git clone [https://github.com/Yugalsaini123/EMS-VirtualEventManagement.git]
 cd EMS
 git checkout develop  # or main, depending on your structure
 ```
@@ -360,7 +361,7 @@ sqlcmd -S localhost,1433 -U sa -P Admin@12345
 
 ### Git
 ```bash
-git clone [URL]          # Clone repo
+git clone [https://github.com/Yugalsaini123/EMS-VirtualEventManagement.git]          # Clone repo
 git checkout -b feature  # Create branch
 git add .               # Stage changes
 git commit -m "message" # Commit

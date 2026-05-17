@@ -1,5 +1,7 @@
 # DEPLOYMENT.md - Production Deployment Guide
 
+Live Demo: [EMS - Virtual Event Management System](http://ems-frontend-28551.centralindia.azurecontainer.io/)
+
 ## 🚀 Overview
 
 This guide covers deploying the EMS application to Azure using Docker containers and Azure Container Instances (ACI).
@@ -52,7 +54,6 @@ docker-compose logs -f frontend
 ### Access Local Application
 - Frontend: http://localhost
 - API: http://localhost:5000/health
-- Swagger: http://localhost:5000/swagger
 
 ---
 
@@ -338,21 +339,7 @@ az container show -g ems-resource-group -n ems-api-container `
 
 ---
 
-## 💰 Cost Management
 
-### Monthly Costs (Estimate)
-- Container Registry: $5
-- API Container (1 vCPU, 1GB): $20
-- Frontend Container (1 vCPU, 1GB): $20
-- Network: $5-10
-- **Total: ~$50-55/month**
-
-### Cost Optimization
-- Use Basic tier for Container Registry
-- Scale down during off-hours
-- Use Spot instances when available
-- Delete unused resources immediately
-- Monitor usage in Azure Portal
 
 ---
 

@@ -1,5 +1,7 @@
 # API_DOCUMENTATION.md - RESTful API Reference
 
+Live Demo: [EMS - Virtual Event Management System](http://ems-frontend-28551.centralindia.azurecontainer.io/)
+
 ## 🔐 Authentication
 
 All protected endpoints require JWT token in Authorization header:

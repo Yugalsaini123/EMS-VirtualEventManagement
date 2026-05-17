@@ -1,5 +1,7 @@
 # ARCHITECTURE.md - System Design & Technical Architecture
 
+Live Demo: [EMS - Virtual Event Management System](http://ems-frontend-28551.centralindia.azurecontainer.io/)
+
 ## 📊 System Overview
 
 ```

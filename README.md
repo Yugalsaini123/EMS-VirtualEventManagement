@@ -2,13 +2,15 @@
 
 **A complete Docker-based Virtual Event Management System with Azure Cloud Deployment**
 
+Live Demo: [EMS - Virtual Event Management System](http://ems-frontend-28551.centralindia.azurecontainer.io/)
+
 ---
 
 ## 📋 Project Overview
 
 The EMS (Event Management System) is a modern web application for managing virtual events. It consists of:
 - **Backend**: ASP.NET Core 8.0 Web API
-- **Frontend**: Angular 17+ SPA with Nginx reverse proxy
+- **Frontend**: Angular 21+ SPA with Nginx reverse proxy
 - **Database**: SQL Server 2022
 
 ---
@@ -23,19 +25,18 @@ The EMS (Event Management System) is a modern web application for managing virtu
 ### Deploy Locally
 ```bash
 cd c:\EMS_Project
-DEPLOY-FINAL-FIXED.bat
+SETUP.md
 ```
 
 ### Access Application
 - Frontend: http://localhost
 - API: http://localhost:5000/health
-- Swagger: http://localhost:5000/swagger
 
 ---
 
 ## ☁️ Azure Deployment
 
-For cloud deployment using Azure Container Registry (ACR) and Azure Container Instances (ACI), see [AZURE_DEPLOYMENT.md](./AZURE_DEPLOYMENT.md)
+For cloud deployment using Azure Container Registry (ACR) and Azure Container Instances (ACI), see [SETUP.md](./SETUP.md)
 
 ### Quick Steps
 1. Set up Azure resources
@@ -123,7 +124,7 @@ DEPLOYMENT_GUIDE.md  # Deployment documentation
 
 | Layer | Technology |
 |-------|-----------|
-| **Frontend** | Angular 17, TypeScript, Nginx |
+| **Frontend** | Angular 21, TypeScript, Nginx |
 | **Backend** | ASP.NET Core 8.0, Entity Framework |
 | **Database** | SQL Server 2022 |
 | **Deployment** | Docker, Azure (ACR/ACI) |
@@ -140,7 +141,7 @@ docker-compose up -d
 
 ### Production (Azure)
 ```bash
-# See AZURE_DEPLOYMENT.md for complete instructions
+# See SETUP.md for complete instructions
 ```
 
 ---
@@ -197,7 +198,7 @@ docker-compose ps
    ```
 
 3. **For Azure Deployment**
-   - Follow [AZURE_DEPLOYMENT.md](./AZURE_DEPLOYMENT.md)
+   - Follow [SETUP.md](./SETUP.md)
 
 4. **Access Application**
    - Local: http://localhost
@@ -267,4 +268,3 @@ This project is created for educational purposes.
 
 **Status**: ✅ Production Ready
 
-Ready to deploy? Follow [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for local or [AZURE_DEPLOYMENT.md](./AZURE_DEPLOYMENT.md) for cloud deployment.
